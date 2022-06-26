@@ -33,7 +33,7 @@ class ContactService{
             if(deleteContact){
                 return {status:200, message: "contacto eliminado"}
             }else{
-                return {status: 400, message:"contactto no encontardo"}
+                return {status: 400, message:"contacto no encontrado"}
             }
         } catch (error) {
             return new Error(error);
@@ -46,8 +46,11 @@ class ContactService{
             const contacts = await contactModel.find({$or:[{name:data}, {lastName:data}]});
             if(contacts.length > 0){
                 return {status:200, message:contacts}
+            }else{
+                return {status:400, message:[]}
             }
         } catch (error) {
+            console.log(error)
             return new Error(error)
         }
     }
