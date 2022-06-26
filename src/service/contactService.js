@@ -41,6 +41,17 @@ class ContactService{
 
     }
 
+    async searchContactsService(data){
+        try {
+            const contacts = await contactModel.find({$or:[{name:data}, {lastName:data}]});
+            if(contacts.length > 0){
+                return {status:200, message:contacts}
+            }
+        } catch (error) {
+            return new Error(error)
+        }
+    }
+
     async updateContactService(data){
         const {_id} = data;
         for (const iterator of data) {

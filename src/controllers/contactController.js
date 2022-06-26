@@ -1,7 +1,8 @@
 const { 
     insertContactService,
     getContactsService ,
-    deleteContactService
+    deleteContactService,
+    searchContactsService
 } = require("../service/contactService");
 
 
@@ -47,6 +48,20 @@ class ContactController {
             return res.status(500).json({status:500, message:error});
         }
     }
+
+    async searchContacts(req, res) {
+        const {data} = req.params;
+        try {
+            const response = await searchContactsService(data);
+            if(response.status == 200){
+                return res.status(200).json(response);
+            }else{
+                return res.status(400).json({status:400, message:[]})
+            }
+        } catch (error) {
+            return res.status(500).json({status:500, message: error})
+        }
+    }
     
     async updateContact(data){
         try {
@@ -55,6 +70,8 @@ class ContactController {
             return res.status(500).json({status:500, message:error});
         }
     }
+
+    
 }
 
 module.exports = new ContactController;
